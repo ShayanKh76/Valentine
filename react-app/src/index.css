@@ -15,6 +15,10 @@ body {
   color: #41111f;
 }
 
+body.no-scroll {
+  overflow: hidden;
+}
+
 .app {
   position: relative;
   overflow: hidden;

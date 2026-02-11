@@ -255,6 +255,12 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const shouldLockScroll = pathname !== "/manage";
+    document.body.classList.toggle("no-scroll", shouldLockScroll);
+    return () => document.body.classList.remove("no-scroll");
+  }, [pathname]);
+
+  useEffect(() => {
     async function loadData() {
       try {
         const loadedPages = await getPages();
