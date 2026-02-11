@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   backend:
-    build: ./backend
+    build: ./server-app
     container_name: backend
     ports:
       - "8080:8080"
@@ -10,7 +10,7 @@ services:
       SPRING_PROFILES_ACTIVE: prod
 
   frontend:
-    build: ./frontend
+    build: ./react-app
     container_name: frontend
     ports:
       - "3000:3000"
