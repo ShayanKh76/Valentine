@@ -26,6 +26,7 @@ body.no-scroll {
   display: grid;
   place-items: center;
   padding: 0;
+  margin: 20px;
 }
 
 .ambient-hearts {
