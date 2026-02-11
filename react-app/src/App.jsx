@@ -208,6 +208,65 @@ function ManagePageCard({
 }
 
 function App() {
+  const questionStages = [
+    {
+      title: "Will you be my Valentine?",
+      subtitle: "One loving and funny reason to say yes.",
+      images: [
+        "https://media.giphy.com/media/l4FGI8GoTL7N4DsyI/giphy.gif",
+      ],
+    },
+    {
+      title: "Are you suuure? Please?",
+      subtitle: "Tiny heart is already begging.",
+      images: [
+        "https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif",
+      ],
+    },
+    {
+      title: "Last chance... pretty please?",
+      subtitle: "I can beg even more if needed.",
+      images: [
+        "https://media.giphy.com/media/v6aOjy0Qo1fIA/giphy.gif",
+      ],
+    },
+    {
+      title: "Begging mode: MAXIMUM",
+      subtitle: "Press yes and save this poor heart.",
+      images: [
+        "https://media.giphy.com/media/13borq7Zo2kulO/giphy.gif",
+      ],
+    },
+    {
+      title: "Emergency cuddle request",
+      subtitle: "I brought extra puppy eyes.",
+      images: [
+        "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif",
+      ],
+    },
+    {
+      title: "Official dramatic begging",
+      subtitle: "I can do this all day.",
+      images: [
+        "https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif",
+      ],
+    },
+    {
+      title: "Final final final please?",
+      subtitle: "One yes and I stop being dramatic.",
+      images: [
+        "https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif",
+      ],
+    },
+    {
+      title: "Ultimate puppy-eyes mode",
+      subtitle: "This is my strongest move.",
+      images: [
+        "https://media.giphy.com/media/6ra84Uso2hoir3YCgb/giphy.gif",
+      ],
+    },
+  ];
+
   const { hearts, sparkles } = useMemo(() => {
     const randomRange = (min, max) => min + Math.random() * (max - min);
     return {
@@ -244,6 +303,7 @@ function App() {
   const [pageTitleDrafts, setPageTitleDrafts] = useState({});
   const [blockDrafts, setBlockDrafts] = useState({});
   const [editingBlocks, setEditingBlocks] = useState({});
+  const [noCount, setNoCount] = useState(0);
 
   useEffect(() => {
     const onPopState = () => {
@@ -454,9 +514,23 @@ function App() {
     }
   }
 
-  const isManagePath = pathname === "/manage";
+  function navigateTo(nextPath) {
+    if (nextPath === pathname) return;
+    window.history.pushState({}, "", nextPath);
+    setPathname(nextPath);
+  }
 
-  return isManagePath ? (
+  const isManagePath = pathname === "/manage";
+  const isBookPath = pathname === "/book";
+  const isCelebrationPath = pathname === "/yaaay";
+
+  const yesScale = Math.min(1 + noCount * 0.2, 2.2);
+  const noScale = Math.max(1 - noCount * 0.1, 0.45);
+  const stageIndex = Math.min(noCount, questionStages.length - 1);
+  const stage = questionStages[stageIndex];
+
+  if (isManagePath) {
+    return (
     <main className="manage-view">
       <h1 className="manage-title">Manage Pages</h1>
       <p className="manage-subtitle">
@@ -516,7 +590,71 @@ function App() {
         ))}
       </section>
     </main>
-  ) : (
+    );
+  }
+
+  if (isCelebrationPath) {
+    return (
+      <main className="valentine-entry">
+        <section className="celebration-card">
+          <p className="celebration-title">Yaaay! You said yes.</p>
+          <img
+            className="celebration-gif"
+            src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
+            alt="Cute cat celebrating"
+          />
+          <button
+            type="button"
+            className="choice-btn choice-btn--open"
+            onClick={() => navigateTo("/book")}
+          >
+            Open Present
+          </button>
+        </section>
+      </main>
+    );
+  }
+
+  if (!isBookPath) {
+    return (
+      <main className="valentine-entry">
+        <section className="question-card">
+          <div className={`question-media ${stage.images.length > 1 ? "question-media--grid" : ""}`}>
+            {stage.images.map((imageSrc, index) => (
+              <img
+                key={`${imageSrc}-${index}`}
+                className="question-image"
+                src={imageSrc}
+                alt="Cute valentine moment"
+              />
+            ))}
+          </div>
+          <h1 className="question-title">{stage.title}</h1>
+          <p className="question-subtitle">{stage.subtitle}</p>
+          <div className="choice-row">
+            <button
+              type="button"
+              className="choice-btn choice-btn--yes"
+              style={{ transform: `scale(${yesScale})` }}
+              onClick={() => navigateTo("/yaaay")}
+            >
+              Yes
+            </button>
+            <button
+              type="button"
+              className="choice-btn choice-btn--no"
+              style={{ transform: `scale(${noScale})` }}
+              onClick={() => setNoCount((current) => current + 1)}
+            >
+              No
+            </button>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  return (
     <main className="app">
       <div className="ambient-hearts" aria-hidden="true">
         {hearts.map((heart) => (
@@ -552,13 +690,13 @@ function App() {
       </div>
 
       <HTMLFlipBook
-        width={360}
-        height={520}
+        width={330}
+        height={490}
         size="stretch"
-        minWidth={280}
-        maxWidth={460}
-        minHeight={420}
-        maxHeight={620}
+        minWidth={260}
+        maxWidth={420}
+        minHeight={390}
+        maxHeight={580}
         maxShadowOpacity={0.35}
         showCover
         mobileScrollSupport

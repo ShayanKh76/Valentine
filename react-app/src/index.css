@@ -19,6 +19,114 @@ body.no-scroll {
   overflow: hidden;
 }
 
+.valentine-entry {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #f6dbe5 0%, #f2d4df 55%, #f9e8ef 100%);
+}
+
+.question-card,
+.celebration-card {
+  width: min(92vw, 580px);
+  background: rgba(255, 255, 255, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1.2rem;
+  padding: 1.2rem;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(100, 25, 48, 0.14);
+}
+
+.question-image {
+  width: 100%;
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.question-media {
+  width: 100%;
+}
+
+.question-media--grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.question-title {
+  margin: 1rem 0 1.15rem;
+  color: #bd1f67;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-family: "Georgia", "Times New Roman", serif;
+  font-style: italic;
+}
+
+.question-subtitle {
+  margin: -0.5rem 0 1rem;
+  color: #8e3057;
+  font-weight: 600;
+}
+
+.choice-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  min-height: 66px;
+}
+
+.choice-btn {
+  border: 0;
+  border-radius: 0.65rem;
+  color: #fff;
+  padding: 0.65rem 1.35rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 220ms ease, filter 220ms ease;
+}
+
+.choice-btn:hover {
+  filter: brightness(1.08);
+}
+
+.choice-btn--yes {
+  background: #22c55e;
+}
+
+.choice-btn--no {
+  background: #ef4444;
+}
+
+.celebration-title {
+  margin: 0 0 1rem;
+  color: #bd1f67;
+  font-size: clamp(2.1rem, 4.5vw, 3.4rem);
+  font-family: "Georgia", "Times New Roman", serif;
+  font-style: italic;
+}
+
+.celebration-gif {
+  width: min(100%, 380px);
+  border-radius: 0.8rem;
+  border: 1px solid #ffc5d8;
+  margin-bottom: 1rem;
+}
+
+.choice-btn--open {
+  background: #f97316;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 520px) {
+  .question-media--grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .app {
   position: relative;
   overflow: hidden;
