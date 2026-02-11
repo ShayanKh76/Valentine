@@ -2,21 +2,30 @@ version: "3.9"
 
 services:
   backend:
-    build: ./server-app
+    build:
+      context: ./server-app
+      dockerfile: dockerfile
     container_name: backend
     ports:
-      - "8080:8080"
+      - "4000:4000"
     environment:
-      SPRING_PROFILES_ACTIVE: prod
+      PORT: 4000
+      DATABASE_URL: ${DATABASE_URL}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost}
 
   frontend:
-    build: ./react-app
+    build:
+      context: ./react-app
+      dockerfile: dockerfile
+      args:
+        VITE_API_BASE_URL: /api
     container_name: frontend
     ports:
       - "3000:3000"
 
   nginx:
-    image: nginx:latest
+    image: nginx:stable-alpine
     container_name: nginx
     ports:
       - "80:80"
